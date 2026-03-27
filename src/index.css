@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@theme {
+  --font-sans: 'Lato', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --color-bg: #FAF6F0;
+  --color-surface: #FFFFFF;
+  --color-text: #2C3E35;
+  --color-accent1: #C86B53;
+  --color-accent2: #7A9A7A;
+  --color-danger: #EF4444;
+  --color-success: #10B981;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: var(--color-accent1);
+  color: var(--color-bg);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-text);
+  border-radius: 4px;
+  opacity: 0.2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent1);
+}
