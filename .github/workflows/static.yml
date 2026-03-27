@@ -1,0 +1,57 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Esegue il workflow ogni volta che fai un push sul branch "main" o "master"
+  push:
+    branches: ["main", "master"]
+  # Permette di avviare il workflow manualmente dalla tab "Actions"
+  workflow_dispatch:
+
+# Imposta i permessi necessari per permettere il deploy su GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Permette una sola esecuzione concorrente
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Installazione dipendenze
+        run: npm install --legacy-peer-deps
+
+      - name: Build del progetto
+        run: npm run build
+        env:
+          CI: false
+
+      - name: Aggiungi .nojekyll
+        run: touch ./dist/.nojekyll
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload dell'artefatto (cartella dist)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
